@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="false" name="White_Crayon" style="background-image: url(&apos;project://database/Assets/Art/greyshift_crayon.png?fileID=2800000&amp;guid=01391033fa787324f8f2ed7c19874315&amp;type=3#greyshift_crayon&apos;); -unity-background-scale-mode: scale-to-fit;" />
+</ui:UXML>

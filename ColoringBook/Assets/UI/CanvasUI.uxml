@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="Generic_Brush_UI" src="project://database/Assets/UI/Generic_Brush_UI.uxml?fileID=9197481963319205126&amp;guid=2f5c4ebaeb885244ab73c43263ee4206&amp;type=3#Generic_Brush_UI" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; justify-content: flex-end; flex-basis: 20%; align-items: center; flex-direction: column; padding-top: 85%;">
+        <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: space-around; padding-top: 0; padding-right: 50%; padding-left: 50%; flex-basis: auto; flex-direction: column; background-color: rgb(188, 153, 56);">
+            <ui:ListView focusable="true" name="BrushCollection" style="background-image: url(&apos;project://database/Assets/Art/crayon.png?fileID=2800000&amp;guid=efd8e8a6200fc8148a6ff4537496bf15&amp;type=3#crayon&apos;);" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="White_Crayon" style="background-image: url(&apos;project://database/Assets/Art/greyshift_crayon.png?fileID=2800000&amp;guid=01391033fa787324f8f2ed7c19874315&amp;type=3#greyshift_crayon&apos;); width: 10%; height: 30%;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Black_Crayon" style="background-image: url(&apos;project://database/Assets/Art/greyshift_crayon.png?fileID=2800000&amp;guid=01391033fa787324f8f2ed7c19874315&amp;type=3#greyshift_crayon&apos;); -unity-background-image-tint-color: rgb(67, 66, 66); width: 10%; height: 30%;" />
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
