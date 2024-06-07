@@ -107,6 +107,7 @@ public class CrayonBox : MonoBehaviour
         Vector3 currentPosition = startPosition;
         float rowOffset = 0;
 
+        Debug.Assert(crayons.Length == colors.Length, "Number of crayons must match the number of colors");
         // Initialize the number of buttons per row and the button index
         int buttonsPerRow = this.buttonsPerRow;
         int buttonIndex = 0;
@@ -130,6 +131,9 @@ public class CrayonBox : MonoBehaviour
             brushButton.brush = brush;
             brushButton.brushColor = colors[i];
 
+            Debug.Assert(brushButton.brush != null, "Brush must not be null");
+            Debug.Assert(brushButton.brushColor == colors[i], "Brush color must match the color in the colors array");
+
             // Set the button's texture and color
             Image buttonImage = buttonObject.GetComponent<Image>();
             buttonImage.sprite = Sprite.Create(crayonTexture, new Rect(0, 0, crayonTexture.width, crayonTexture.height), new Vector2(0, 0));
@@ -137,7 +141,6 @@ public class CrayonBox : MonoBehaviour
 
             // Add a listener to the button's click event
             button.onClick.AddListener(brushButton.OnClick);
-
             // Update the position for the next button
             buttonIndex++;
             if (buttonIndex >= buttonsPerRow)
@@ -159,7 +162,14 @@ public class CrayonBox : MonoBehaviour
             {
                 currentPosition += new Vector3(columnXOffset, 0, 0);
             }
+            buttonObject.transform.localPosition = currentPosition;
+
+            Debug.Assert((buttonObject.transform.localPosition.x - startPosition.x - rowOffset) % (columnXOffset / 2) == 0, "BrushButton x position is incorrect");
+            Debug.Assert((buttonObject.transform.localPosition.y - startPosition.y) % yOffset == 0, "BrushButton y position is incorrect");
+
+            
         }
+
     }
 }
 /// <summary>

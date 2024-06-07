@@ -16,6 +16,32 @@ public class BrushStroke : MonoBehaviour
     public Brush brush;
     public List<Vector2> path;
 
+    public int PathIndex {
+        get {
+            // Check that the path is not null before trying to access its length
+            Debug.Assert(path != null, "Path is null");
+            if (!isIndexChosen) 
+            {
+                return path.Count - 1;
+            }
+            else 
+            {
+                // Check that the chosen index is within the bounds of the path
+                Debug.Assert(pathIndex >= 0 && pathIndex < path.Count, "Path index is out of range");
+                return pathIndex;
+            }
+        }
+        set {
+            // Check that the new index is within the bounds of the path
+            Debug.Assert(value >= 0 && value < path.Count, "New path index is out of range");
+            isIndexChosen = true;
+            pathIndex = value;
+        }
+    }
+    private int pathIndex = 0;
+
+    public bool isIndexChosen = false;
+
     public BrushStroke(Brush brush, List<Vector2> path)
     {
         this.brush = brush;
@@ -48,29 +74,34 @@ public class BrushStroke : MonoBehaviour
 
     public List<Vector3> GetVertices()
     {
+        // Check that the stroke mesh is not null before trying to access its vertices
+        Debug.Assert(stroke != null, "Stroke mesh is null");
         return new List<Vector3>(stroke.vertices);
     }
+
     public List<int> GetTriangles()
     {
+        // Check that the stroke mesh is not null before trying to access its triangles
+        Debug.Assert(stroke != null, "Stroke mesh is null");
         return new List<int>(stroke.triangles);
+
     }
-
-
 
     public void CreateMeshBrush()
     {
+        // Check that the path is not null or empty before trying to create a mesh brush
+        Debug.Assert(path != null && path.Count > 0, "Path is null or empty");
+
         stroke = new Mesh();
-        //Debug.Log("Mouse Position " + UtilsClass.GetMouseWorldPosition());
-        //OnChangeColor(Color.red);
 
         Vector3[] vertices = new Vector3[4];
         Vector2[] uv = new Vector2[4];
         int[] triangles = new int[6];
 
-        vertices[0] = UtilsClass.GetMouseWorldPosition();
-        vertices[1] = UtilsClass.GetMouseWorldPosition();
-        vertices[2] = UtilsClass.GetMouseWorldPosition();
-        vertices[3] = UtilsClass.GetMouseWorldPosition();
+        vertices[0] = GetCurrentPosition();
+        vertices[1] = GetCurrentPosition();
+        vertices[2] = GetCurrentPosition();
+        vertices[3] = GetCurrentPosition();
 
         uv[0] = Vector2.zero;
         uv[1] = Vector2.zero;
@@ -91,13 +122,17 @@ public class BrushStroke : MonoBehaviour
         stroke.MarkDynamic();
         //FindObjectsOfType<GameController>()[0].brush.GetComponent<MeshFilter>().mesh = stroke;
 
-
-        lastMousePosition = UtilsClass.GetMouseWorldPosition();
+        lastMousePosition = GetCurrentPosition();
         path.Add(lastMousePosition);
     }
 
     public void CreateMeshBrushStroke()
     {
+        // Check that the stroke mesh is not null before trying to modify it
+        Debug.Assert(stroke != null, "Stroke mesh is null");
+        // Check that the path index is at least 1 before trying to create a mesh brush stroke
+        Debug.Assert(PathIndex >= 1, "Path index is too small");
+
         Vector3[] vertices = new Vector3[stroke.vertices.Length + 2];
         Vector2[] uv = new Vector2[stroke.uv.Length + 2];
         int[] triangles = new int[stroke.triangles.Length + 6];
@@ -113,14 +148,17 @@ public class BrushStroke : MonoBehaviour
         int vIndex2 = vIndex + 2;
         int vIndex3 = vIndex + 3;
 
-        Vector3 mouseForwardPosition = (UtilsClass.GetMouseWorldPosition() - lastMousePosition).normalized;
+        Vector3 mouseForwardPosition = (GetCurrentPosition() - new Vector3(path[PathIndex - 1].x, path[PathIndex - 1].y, 0)).normalized;
+
         Vector3 normal2D = new Vector3(0, 0, -1f);
         lineThickness = 1f;
-        Vector3 newUpPosition = UtilsClass.GetMouseWorldPosition() + Vector3.Cross(mouseForwardPosition, normal2D) * lineThickness;
-        Vector3 newDownPosition = UtilsClass.GetMouseWorldPosition() + Vector3.Cross(mouseForwardPosition, normal2D * -1f) * lineThickness;
-
+        Vector3 newUpPosition = GetCurrentPosition() + Vector3.Cross(mouseForwardPosition, normal2D) * lineThickness;
+        Vector3 newDownPosition = GetCurrentPosition() + Vector3.Cross(mouseForwardPosition, normal2D * -1f) * lineThickness;
         vertices[vIndex2] = newUpPosition;
         vertices[vIndex3] = newDownPosition;
+
+        // vertices[vIndex2] = newUpPosition;
+        // vertices[vIndex3] = newDownPosition;
 
         //Debug.Log("Stroke: " + newUpPosition + ", " + newDownPosition);
         uv[vIndex2] = Vector2.zero;
@@ -141,24 +179,30 @@ public class BrushStroke : MonoBehaviour
         stroke.triangles = triangles;
         stroke.MarkDynamic();
 
-        lastMousePosition = UtilsClass.GetMouseWorldPosition();
+    lastMousePosition = GetCurrentPosition();
     }
-
 
     public void EndMeshBrushStroke()
     {
+        // Check that the stroke is active before trying to end it
+        Debug.Assert(isActive, "Stroke is not active");
+
         isActive = false;
         Debug.Log("End Brush Stroke");
     }
 
     public void OnChangeColor(Color newColor)
     {
+        // Check that the new color is not null before trying to set it
+        Debug.Assert(newColor != null, "New color is null");
+ 
         Debug.Log("newColor: " + newColor);
         if (newColor != null && newColor.a != 0)
         {
             SetColor(newColor);
         }
     }
+
     private void SetColor(Color newColor)
     {
         //Debug.Log("Material: " + material.GetColor("_EmissionColor"));
@@ -173,5 +217,9 @@ public class BrushStroke : MonoBehaviour
     public Mesh GetMesh()
     {
         return stroke;
+    }
+    private Vector3 GetCurrentPosition()
+    {
+        return new Vector3(path[PathIndex].x, path[PathIndex].y, 0);
     }
 }
