@@ -108,6 +108,7 @@ public class CrayonBox : MonoBehaviour
         float rowOffset = 0;
 
         Debug.Assert(crayons.Length == colors.Length, "Number of crayons must match the number of colors");
+        Debug.Assert(crayons.Length == colors.Length, "Number of crayons must match the number of colors");
         // Initialize the number of buttons per row and the button index
         int buttonsPerRow = this.buttonsPerRow;
         int buttonIndex = 0;
@@ -130,6 +131,9 @@ public class CrayonBox : MonoBehaviour
             BrushButton brushButton = buttonObject.AddComponent<BrushButton>();
             brushButton.brush = brush;
             brushButton.brushColor = colors[i];
+
+            Debug.Assert(brushButton.brush != null, "Brush must not be null");
+            Debug.Assert(brushButton.brushColor == colors[i], "Brush color must match the color in the colors array");
 
             Debug.Assert(brushButton.brush != null, "Brush must not be null");
             Debug.Assert(brushButton.brushColor == colors[i], "Brush color must match the color in the colors array");
@@ -169,6 +173,7 @@ public class CrayonBox : MonoBehaviour
 
             
         }
+
 
     }
 }
