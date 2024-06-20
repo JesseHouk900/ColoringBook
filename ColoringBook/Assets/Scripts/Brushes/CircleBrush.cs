@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class CircleBrush : Brush
 {
+    public CircleBrush()
+    {
+
+    }
+
+    public CircleBrush(Brush _brush)
+    {
+        Refresh = _brush.Refresh;
+        brushColor = _brush.brushColor;
+        material = _brush.material;
+        
+    }
     public override void Draw(Vector2 position, Camera cam, RenderTexture renderTexture)
     {
         // Create a circle game object

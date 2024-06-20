@@ -8,6 +8,17 @@ public class CrayonBrushSelectable : MonoBehaviour
     public CrayonBrushSelectable brushSelector;
     public Color color;
 
+    public CrayonBrushSelectable()
+    {
+        BrushButton brushButton = GetComponent<BrushButton>();
+        brushButton.brush = new CircleBrush();
+    }
+
+    public CrayonBrushSelectable(Brush _brush)
+    {
+        BrushButton brushButton = GetComponent<BrushButton>();
+        brushButton.brush = _brush;
+    }
     public void Awake()
     {
         brushSelector = GetComponent<CrayonBrushSelectable>();

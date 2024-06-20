@@ -34,10 +34,21 @@ public class DrawingCanvas : MonoBehaviour
     /// <summary>
     /// The current brush used for drawing.
     /// </summary>
-    private Brush currentBrush;
+    [SerializeField] private Brush currentBrush;
+    // [SerializeField] private Transform debugVisual1;
+    // [SerializeField] private Transform debugVisual2;
 
+    private bool isLoaded = false;
+    private void Awake()
+    {
+        // Initialize the brush with a default brush
+        Debug.Log("Brushing");
+        currentBrush = Instantiate(GetComponent<BrushButton>().brush);
+        currentBrush.Refresh = Refresh;
+    }
     private void Start()
     {
+        Debug.Log("Loading");
         // Set the default image size to the screen size
         SetDefaultImageSize();
 
@@ -57,13 +68,23 @@ public class DrawingCanvas : MonoBehaviour
         // Display the RenderTexture on a RawImage
         displayImage.texture = renderTexture;
 
-        // Initialize the brush with a default brush
-        currentBrush = new CircleBrush();
-        currentBrush.Refresh = Refresh;
+        // // Initialize the brush with a default brush
+        // currentBrush = new CircleBrush();
+        // currentBrush.Refresh = Refresh;
 
         // Set Event listeners for being drawn on
         GetComponent<MouseEventHandler>().OnClick += OnClick;
         GetComponent<MouseEventHandler>().OnDrag += OnDrag;
+    }
+
+    private void OnValidate()
+    {
+        if (!isLoaded)
+        {
+            //Start();
+            isLoaded = true;
+        }
+
     }
 
     /// <summary>
