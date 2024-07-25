@@ -8,6 +8,6 @@ public abstract class Brush : MonoBehaviour
     public Color brushColor;
     public Material material;
 
-    public abstract void Draw(Vector2 position, Camera cam, RenderTexture renderTexture);
-    public abstract void DrawLine(Vector2 startPosition, Vector2 endPosition, Camera cam, RenderTexture renderTexture);
+    public abstract Line Draw(Vector2 position, Camera cam, RenderTexture renderTexture);
+    public abstract Line DrawLine(Vector2 startPosition, Vector2 endPosition, Camera cam, RenderTexture renderTexture);
 }

@@ -42,6 +42,11 @@ public class BrushStroke : MonoBehaviour
 
     public bool isIndexChosen = false;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="brush"></param>
+    /// <param name="path"></param>
     public BrushStroke(Brush brush, List<Vector2> path)
     {
         this.brush = brush;

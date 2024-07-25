@@ -78,11 +78,15 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         Vector2 ray = eventData.position;
         Collider2D[] colliders = Physics2D.OverlapPointAll(ray);
-        BrushButton topBrushButton = GetTopBrushButton(colliders);
-        if (topBrushButton != null)
+        // Check if there is a bursh being selected
+        BrushButton selectedBrushButton = GetTopBrushButton(colliders);
+        if (selectedBrushButton != null)
         {
-            UpdateGameControllerBrush(topBrushButton);
+            UpdateGameControllerBrush(selectedBrushButton);
         }
+        // Include additional checks here such as blocking boarder drawing 
+        // or drawing over the undo button
+
         if (OnClick != null)
         {
             OnClick();
@@ -106,6 +110,10 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IPointerUpH
         return null;
     }
 
+    /// <summary>
+    /// Update the `gameController.brush` with `topBrushButton.brush` and add a new stroke  
+    /// </summary>
+    /// <param name="topBrushButton"></param>
     private void UpdateGameControllerBrush(BrushButton topBrushButton)
     {
         GameObject gameControllerObject = GameObject.Find("GameController");
@@ -115,6 +123,8 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IPointerUpH
             if (gameController != null)
             {
                 gameController.brush = topBrushButton.brush;
+                Debug.Log(topBrushButton);
+                // Create a new brush stroke with the selected brush
                 BrushStroke brushStroke = new BrushStroke(topBrushButton.brush, new List<Vector2>());
                 gameController.brushStrokes.Add(brushStroke);
             }

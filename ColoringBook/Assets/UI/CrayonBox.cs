@@ -31,8 +31,6 @@ public class CrayonBox : MonoBehaviour
         // Load the first preset by default
         LoadPreset(0);
 
-        // Log a message to the console to indicate the CrayonBox has started
-        Debug.Log("CrayonBox started");
     }
 
     // Number of buttons per row
@@ -103,13 +101,12 @@ public class CrayonBox : MonoBehaviour
         // Get the current Brush object from the DrawingCanvas
         // var drawingCanvas = GameObject.Find("DrawingCanvas").GetComponent<DrawingCanvas>();
         // var brush = new CircleBrush();
-        GameObject brushObject = GameObject.Find("CircleBrush");
+        GameObject brushObject = GameObject.Find("TextureBrush");
         var brush = brushObject.GetComponent<Brush>();
         //var brush = Instantiate(drawingCanvas.GetBrush());
 
         // Initialize the current position and row offset
         Vector3 currentPosition = startPosition - new Vector3(columnXOffset, 0, 0);
-        Debug.Log(startPosition);
         float rowOffset = 0;
 
         // Initialize the number of buttons per row and the button index
@@ -117,7 +114,7 @@ public class CrayonBox : MonoBehaviour
         int buttonIndex = 0;
 
         // Loop through each color in the preset
-        for (int i = 0; i < colors.Length; i++)
+        for (int i = 0; i < crayons.Length; i++)
         {
             // Create a new button
             GameObject buttonObject = Instantiate(buttonPrefab, transform);
@@ -146,7 +143,6 @@ public class CrayonBox : MonoBehaviour
             // Add a listener to the button's click event
             button.onClick.AddListener(brushButton.OnClick);
             // Update the position for the next button
-            buttonIndex++;
             if (buttonIndex >= buttonsPerRow)
             {
                 buttonIndex = 0;
@@ -166,9 +162,8 @@ public class CrayonBox : MonoBehaviour
             {
                 currentPosition += new Vector3(columnXOffset, 0, 0);
             }
+            buttonIndex++;
             buttonObject.transform.localPosition = currentPosition;
-
-            Debug.Log(buttonObject.transform.localPosition);
             Debug.Assert(ApproximatelyM(buttonObject.transform.localPosition.x, startPosition.x + rowOffset, (columnXOffset / 2)), $"BrushButton{i} x position is incorrect");
             //Debug.Assert(Approximately((buttonObject.transform.localPosition.x - startPosition.x - rowOffset) % (columnXOffset / 2), 0), "BrushButton x position is incorrect");
             Debug.Assert(ApproximatelyM(buttonObject.transform.localPosition.y, startPosition.y, yOffset), "BrushButton y position is incorrect");
