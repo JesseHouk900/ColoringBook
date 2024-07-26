@@ -63,7 +63,7 @@ public class CrayonMeshRenderer : MonoBehaviour
     public void OnHold()
     {
         //Debug.Log("OnHold");
-        if (Vector3.Distance(stroke.lastMousePosition, UtilsClass.GetMouseWorldPosition()) > minDistance)
+        if (Vector3.Distance(stroke.lastMousePosition, Utils.GetMouseWorldPosition()) > minDistance)
         {
             stroke.CreateMeshBrushStroke();
             OnChangeColor(color);

@@ -20,6 +20,11 @@ public class CircleBrush : Brush
     private Line currentLine;
     private GameObject lastCircle;
 
+    public override void SetBrushColor(Color c)
+    {
+        brushColor = c;
+    }
+
     public override Line Draw(Vector2 position, Camera cam, RenderTexture renderTexture)
     {
         // Create the first point of the line

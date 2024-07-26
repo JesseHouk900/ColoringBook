@@ -11,6 +11,13 @@ public class TextureBrush : Brush
 
     public Transform transform;
 
+    public override void SetBrushColor(Color c)
+    {
+        brushColor = c;
+        Debug.Log("Color changed");
+        UpdateBrushTip();
+    }
+
     public TextureBrush()
     {
     }
@@ -41,6 +48,10 @@ public class TextureBrush : Brush
 
     private void InitializeBrush()
     {
+        UpdateBrushTip();
+    }
+    public void UpdateBrushTip()
+    {
         brushPixels = new Color[brushSize * brushSize];
         for (int i = 0; i < brushPixels.Length; i++)
         {
@@ -51,14 +62,15 @@ public class TextureBrush : Brush
 
     public override Line Draw(Vector2 position, Camera cam, RenderTexture renderTexture)
     {
-        // Vector3 worldPos = cam.ScreenToWorldPoint(position);
-        // Debug.Log(transform);
-        // Vector3 localPos = transform.InverseTransformPoint(worldPos);
-        // int x = Mathf.RoundToInt(localPos.x + textureWidth / 2f - brushSize / 2f);
-        // int y = Mathf.RoundToInt(localPos.y + textureHeight / 2f - brushSize / 2f);
-        int x = Mathf.RoundToInt(position[0]);
-        int y = Mathf.RoundToInt(position[1]);
+        // Calculate smoothed mouse position based on the current position and the target position (mouse position)
+        Vector3 smoothedPosition = Utils.CalculateSmoothedPosition(transform.position, position, GameObject.Find("Cursor").GetComponent<CursorMovement>().moveSpeed);
+
+        // Use the smoothed position for drawing
+        int x = Mathf.RoundToInt(smoothedPosition.x);
+        int y = Mathf.RoundToInt(smoothedPosition.y);
         Texture2D texture = GameObject.Find("DrawingCanvas").GetComponent<DrawingCanvas>().texture;
+        Debug.Log($@"x: {x} 
+                        y: {y}");
         if (x >= 0 && x < textureWidth && y >= 0 && y < textureHeight)
         {
             Debug.Log($@"x: {x} 
@@ -73,6 +85,7 @@ public class TextureBrush : Brush
 
     public override Line DrawLine(Vector2 startPosition, Vector2 endPosition, Camera cam, RenderTexture renderTexture)
     {
+        SetBrushColor(brushColor);
         // Implement line drawing logic here if needed
         // For now, simply call Draw for the start position
         return Draw(startPosition, cam, renderTexture);

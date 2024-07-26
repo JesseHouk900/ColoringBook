@@ -86,12 +86,8 @@ public class DrawingCanvas : MonoBehaviour
         // currentBrush = new GameObject("TextureBrush");
         // currentBrush.transform.parent = this.transform;
         Brush brush = GetBrush();
-        Debug.Log($"brush: {brush}");
 
         brush.Refresh = Refresh;
-        Debug.Log($@"brush: {brush.GetType()}
-                    brushPixels: {((TextureBrush)brush).brushPixels}
-                    transform: {((TextureBrush)brush).transform.position}");
 
         lines = new List<Line>();
         // Set Event listeners for being drawn on
@@ -161,7 +157,9 @@ public class DrawingCanvas : MonoBehaviour
     {
         Brush brush = GetBrush();
         brush = newBrush;
-        brush.brushColor = newColor;
+        brush.SetBrushColor(newColor);
+        Debug.Log($@"Brush: {brush.brushColor}
+                    incoming: {newColor}");
         brush.Refresh = Refresh;
     }
 
@@ -181,10 +179,10 @@ public class DrawingCanvas : MonoBehaviour
             {
                 isDrawing = true;
             }
-            Debug.Log(Input.mousePosition);
+            // Debug.Log(Input.mousePosition);
             // Draw a line from the last position to the current position
             Line line = GetBrush().DrawLine(Input.mousePosition, position, cam, renderTexture);
-            Debug.Log($"line: {line}");
+            // Debug.Log($"line: {line}");
             lines.Add(line);
 
         }

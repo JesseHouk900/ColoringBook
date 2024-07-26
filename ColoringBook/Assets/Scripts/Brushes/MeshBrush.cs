@@ -66,7 +66,7 @@
 //         this.brush = new CircleBrush();
 //         this.brush.brushColor = _color;
 //         this.path = new List<Vector2>();
-//         this.path.Add(new Vector2(UtilsClass.GetMouseWorldPosition().x, UtilsClass.GetMouseWorldPosition().y));
+//         this.path.Add(new Vector2(Utils.GetMouseWorldPosition().x, Utils.GetMouseWorldPosition().y));
 //         Awake();
 
 //     }
@@ -76,7 +76,7 @@
 //         this.brush.brushColor = _color;
 //         this.brush.material = _material;
 //         this.path = new List<Vector2>();
-//         this.path.Add(new Vector2(UtilsClass.GetMouseWorldPosition().x, UtilsClass.GetMouseWorldPosition().y));
+//         this.path.Add(new Vector2(Utils.GetMouseWorldPosition().x, Utils.GetMouseWorldPosition().y));
 //         Awake();
 
 //     }
